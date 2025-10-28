@@ -70,7 +70,7 @@ const Profile = () => {
             <Grid container spacing={3} alignItems="center">
               <Grid item>
                 <Avatar
-                  src={user.avatar ? `${process.env.REACT_APP_API_URL}/../uploads/${user.avatar}` : undefined}
+                  src={user.avatar && user.avatar !== 'default-avatar.jpg' ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${user.avatar}` : undefined}
                   sx={{ width: 120, height: 120 }}
                 >
                   {user.name?.[0]}
@@ -159,7 +159,7 @@ const Profile = () => {
                           height="200"
                           image={
                             recipe.image !== 'default-recipe.jpg'
-                              ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
+                              ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${recipe.image}`
                               : '/default-recipe.jpg'
                           }
                           alt={recipe.title}
@@ -217,7 +217,7 @@ const Profile = () => {
                           height="200"
                           image={
                             recipe.image !== 'default-recipe.jpg'
-                              ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
+                              ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${recipe.image}`
                               : '/default-recipe.jpg'
                           }
                           alt={recipe.title}
@@ -254,7 +254,7 @@ const Profile = () => {
                     <CardContent>
                       <Box display="flex" alignItems="center" gap={2}>
                         <Avatar
-                          src={followedUser.avatar ? `${process.env.REACT_APP_API_URL}/../uploads/${followedUser.avatar}` : undefined}
+                          src={followedUser.avatar && followedUser.avatar !== 'default-avatar.jpg' ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${followedUser.avatar}` : undefined}
                           component={Link}
                           to={`/profile/${followedUser._id}`}
                         >
@@ -289,7 +289,7 @@ const Profile = () => {
                     <CardContent>
                       <Box display="flex" alignItems="center" gap={2}>
                         <Avatar
-                          src={follower.avatar ? `${process.env.REACT_APP_API_URL}/../uploads/${follower.avatar}` : undefined}
+                          src={follower.avatar && follower.avatar !== 'default-avatar.jpg' ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${follower.avatar}` : undefined}
                           component={Link}
                           to={`/profile/${follower._id}`}
                         >

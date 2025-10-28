@@ -77,7 +77,7 @@ const Home = () => {
                   height="200"
                   image={
                     recipe.image && recipe.image !== 'default-recipe.jpg'
-                      ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
+                      ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${recipe.image}`
                       : 'https://via.placeholder.com/400x200?text=Recipe+Image'
                   }
                   alt={recipe.title}

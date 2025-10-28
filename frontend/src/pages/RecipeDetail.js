@@ -40,6 +40,8 @@ const RecipeDetail = () => {
     async () => {
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/recipes/${id}`);
+        console.log('RecipeDetail - Recipe data:', res.data.data);  
+        console.log('RecipeDetail - Recipe image:', res.data.data.image);
         return res.data.data;
       } catch (error) {
         console.error('Error fetching recipe:', error);
@@ -131,7 +133,7 @@ const RecipeDetail = () => {
               
               <Box display="flex" alignItems="center" gap={2} mb={2}>
                 <Avatar
-                  src={recipe.author?.avatar ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.author.avatar}` : undefined}
+                  src={recipe.author?.avatar && recipe.author.avatar !== 'default-avatar.jpg' ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${recipe.author.avatar}` : undefined}
                   component={Link}
                   to={`/profile/${recipe.author?._id}`}
                   sx={{ textDecoration: 'none' }}
@@ -187,24 +189,47 @@ const RecipeDetail = () => {
 
           {/* Recipe Image */}
           <Grid item xs={12} md={6}>
-            <Box
-              component="img"
-              sx={{
-                width: '100%',
-                height: 400,
-                objectFit: 'cover',
-                borderRadius: 2,
-              }}
-              src={
-                recipe.image && recipe.image !== 'default-recipe.jpg'
-                  ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
-                  : 'https://via.placeholder.com/600x400?text=Recipe+Image'
-              }
-              alt={recipe.title}
-              onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/600x400?text=Recipe+Image';
-              }}
-            />
+            <Box sx={{ position: 'relative', width: '100%' }}>
+              <img
+                style={{
+                  width: '100%',
+                  height: '400px',
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  display: 'block',
+                  backgroundColor: '#f0f0f0',
+                  border: '2px solid red',
+                }}
+                src={
+                  (() => {
+                    console.log('RecipeDetail - Recipe image:', recipe.image);
+                    const baseUrl = process.env.REACT_APP_API_URL;
+                    
+                    if (!recipe.image || recipe.image === 'default-recipe.jpg') {
+                      console.log('⚠️ No valid image in database');
+                      return '/image.jpg';
+                    }
+                    
+                    const imageUrl = baseUrl.replace(/\/api\/?$/, '') + '/uploads/' + recipe.image;
+                    console.log('✅ RecipeDetail - Constructed Image URL:', imageUrl);
+                    console.log('Image element will be created with src:', imageUrl);
+                    return imageUrl;
+                  })()
+                }
+                alt={recipe.title}
+                onError={(e) => {
+                  console.error('❌ RecipeDetail - Image failed to load');
+                  console.error('Failed URL:', e.target.src);
+                  console.error('Recipe image field:', recipe.image);
+                }}
+                onLoad={(e) => {
+                  console.log('✅ RecipeDetail - Image loaded successfully:', e.target.src);
+                  console.log('Image dimensions:', e.target.naturalWidth, 'x', e.target.naturalHeight);
+                  console.log('Image display style:', window.getComputedStyle(e.target).display);
+                  console.log('Image visibility:', window.getComputedStyle(e.target).visibility);
+                }}
+              />
+            </Box>
           </Grid>
 
           {/* Recipe Info */}

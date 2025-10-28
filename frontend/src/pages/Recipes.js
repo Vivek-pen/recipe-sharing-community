@@ -261,13 +261,18 @@ const Recipes = () => {
                         component="img"
                         height="200"
                         image={
-                          recipe.image && recipe.image !== 'default-recipe.jpg'
-                            ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
-                            : 'https://via.placeholder.com/400x200?text=Recipe+Image'
+                          (() => {
+                            const baseUrl = process.env.REACT_APP_API_URL;
+                            if (!recipe.image || recipe.image === 'default-recipe.jpg') {
+                              return 'https://placehold.co/400x200?text=Recipe+Image';
+                            }
+                            // Remove /api from end to get base URL
+                            return baseUrl.replace(/\/api\/?$/, '') + '/uploads/' + recipe.image;
+                          })()
                         }
                         alt={recipe.title}
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x200?text=Recipe+Image';
+                          e.target.src = 'https://placehold.co/400x200?text=Recipe+Image';
                         }}
                       />
                       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>

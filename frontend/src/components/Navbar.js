@@ -224,9 +224,9 @@ const Navbar = () => {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  {user?.avatar ? (
+                  {user?.avatar && user.avatar !== 'default-avatar.jpg' ? (
                     <Avatar
-                      src={`${process.env.REACT_APP_API_URL}/../uploads/${user.avatar}`}
+                      src={`${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${user.avatar}`}
                       alt={user.name}
                       sx={{ width: 32, height: 32 }}
                     />

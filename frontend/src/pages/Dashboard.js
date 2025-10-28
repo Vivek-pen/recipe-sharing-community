@@ -101,7 +101,7 @@ const Dashboard = () => {
             <Grid container spacing={3} alignItems="center">
               <Grid item>
                 <Avatar
-                  src={user.avatar ? `${process.env.REACT_APP_API_URL}/../uploads/${user.avatar}` : undefined}
+                  src={user.avatar && user.avatar !== 'default-avatar.jpg' ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${user.avatar}` : undefined}
                   sx={{ width: 80, height: 80 }}
                 >
                   {user.name?.[0]}
@@ -194,7 +194,7 @@ const Dashboard = () => {
                             height="200"
                             image={
                               recipe.image !== 'default-recipe.jpg'
-                                ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
+                                ? `http://localhost:5000/uploads/${recipe.image}`
                                 : '/default-recipe.jpg'
                             }
                             alt={recipe.title}
@@ -277,7 +277,7 @@ const Dashboard = () => {
                           height="200"
                           image={
                             recipe.image !== 'default-recipe.jpg'
-                              ? `${process.env.REACT_APP_API_URL}/../uploads/${recipe.image}`
+                              ? `${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${recipe.image}`
                               : '/default-recipe.jpg'
                           }
                           alt={recipe.title}

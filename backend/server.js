@@ -21,12 +21,21 @@ connectDB();
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc: ["'self'", "data:", "blob:", "https:", "http://localhost:5000", "http://localhost:3000"],
+      connectSrc: ["'self'", "http://localhost:5000", "http://localhost:3000"],
+    },
+  },
+}));
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
 app.use(compression());
-
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
@@ -51,9 +60,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Static folder for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
@@ -67,6 +73,9 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Static folder for uploads - Must be after API routes
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Error handler
 app.use(errorHandler);
