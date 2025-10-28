@@ -257,23 +257,10 @@ const Recipes = () => {
                       to={`/recipes/${recipe._id}`}
                       sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
                     >
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={
-                          (() => {
-                            const baseUrl = process.env.REACT_APP_API_URL;
-                            if (!recipe.image || recipe.image === 'default-recipe.jpg') {
-                              return 'https://placehold.co/400x200?text=Recipe+Image';
-                            }
-                            // Remove /api from end to get base URL
-                            return baseUrl.replace(/\/api\/?$/, '') + '/uploads/' + recipe.image;
-                          })()
-                        }
-                        alt={recipe.title}
-                        onError={(e) => {
-                          e.target.src = 'https://placehold.co/400x200?text=Recipe+Image';
-                        }}
+                      <img src='/image.jpg' style={{
+                        height:"200px",
+                        width:"200px"
+                      }}
                       />
                       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h6" component="h3" gutterBottom noWrap>

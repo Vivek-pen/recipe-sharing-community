@@ -207,7 +207,7 @@ const RecipeDetail = () => {
                     
                     if (!recipe.image || recipe.image === 'default-recipe.jpg') {
                       console.log('⚠️ No valid image in database');
-                      return '/image.jpg';
+                      return 'https://via.placeholder.com/600x400?text=No+Image';
                     }
                     
                     const imageUrl = baseUrl.replace(/\/api\/?$/, '') + '/uploads/' + recipe.image;
